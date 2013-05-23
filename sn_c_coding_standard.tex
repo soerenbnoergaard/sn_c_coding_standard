@@ -4,7 +4,45 @@
 \usepackage[danish]{babel}
 \usepackage{listings}
 \usepackage{tikz}
-\setlength{\parskip}{2mm}
+
+\usepackage{cmbright}
+\usepackage[scaled=0.85]{DejaVuSansMono}
+
+\let\tempone\itemize
+\let\temptwo\enditemize
+\renewenvironment{itemize}{\tempone\firmlist}{\temptwo}
+
+\let\tempthree\enumerate
+\let\tempfour\endenumerate
+\renewenvironment{enumerate}{\tempthree\firmlist}{\tempfour}
+
+\renewcommand{\topfraction}{0.85}
+\renewcommand{\textfraction}{0.1}
+\renewcommand{\floatpagefraction}{0.85}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt}
+
+\setlrmarginsandblock{1.7cm}{1.7cm}{*}
+\setulmarginsandblock{2.5cm}{2.5cm}{*}
+\setlength{\evensidemargin}{\oddsidemargin}
+\checkandfixthelayout
+
+\lstset{
+  breaklines=true, 
+  language=c,
+  basicstyle=\ttfamily, 
+  frame=none,
+  numbers=none, 
+  literate={ø}{{\o}}1 {æ}{{\ae}}1{å}{{\aa}}1,
+  showtabs=false,
+  showspaces=false,
+  showstringspaces=false,
+  captionpos=b,
+  keywordstyle=\color{blue!70!black},
+  commentstyle=\color{gray}
+}
+
 
 \title{SN C Coding Standard}
 \author{Søren Nørgaard}
@@ -25,7 +63,7 @@ Visuel opsætning af kode, herunder indentering og parentes-sætning (curly brac
 \begin{itemize}
     \item Identering er 4 spaces.
     \item Labels, ifm. \texttt{goto}'s, indenteres ikke, og sættes helt til venstre.
-    \item Labels ifm. \texttt{switch}'e indenteres på samme niveau som \texttt{switch}.
+    \item Labels/\texttt{case}s ifm. \texttt{switch}e indenteres på samme niveau som \texttt{switch}. Efter afsluttende \texttt{break} laves en tom linje før næste \texttt{case}.
 \end{itemize}
 
 \section{Curly brackets}
@@ -89,14 +127,144 @@ Visuel opsætning af kode, herunder indentering og parentes-sætning (curly brac
 \end{itemize}
 
 \section{Almindelige kommentarer}
+\begin{itemize}
+    \item Forsøg at lave din kode så forståelig som muligt uden kommentarer, og brug dem kun hvor det er nødvendigt.
+    \item Skriv ikke unødvendige kommentarer (``\texttt{i++; /* i forøges med 1. */}'').
+    \item Kommenter så vidt muligt for enden af en linje, så koden kan læses uforstyrret. Hvis en stor kommentar skal knyttes, skriv den da som en blokkommentar som her:
+        \begin{verbatim}
+/* FIXME:
+ * Some work needs to be done, to let
+ * the user know an ACK has occured. */
+        \end{verbatim}
+        med en tom linje under og over, så kommentaren står for sig selv.
+    \item Kommentarer skrives på engelsk.
+\end{itemize}
 
 \chapter{Filopdeling}
+Skrives eksempeltvis et main-program, filen \texttt{main.c}, med et bibliotek bestående af \texttt{\{spi.h, spi.c\}}, opdeles filerne således:
 
 \section{main.c}
+\begin{itemize}
+    \item Inkluderer \texttt{spi.h}.
+    \item Benytter funktioner herfra.
+\end{itemize}
+
 \section{spi.h}
+\begin{itemize}
+    \item Indeholder prototyper til globale funktioner.
+    \item Indeholder tilhørende dokumentation af disse funktioner.
+    \item Indeholder \texttt{typedef}s, \texttt{struct}s og \texttt{\#define}s tilhørende biblioteket.
+\end{itemize}
+
 \section{spi.c}
+\begin{itemize}
+    \item Inkluderer \texttt{spi.h}.
+    \item Indeholder, øverst, statiske funktioner, der benyttes senere i globale funktioner.\footnote{\texttt{static}-funktioner benyttes for at dele koden om i simplere underfunktioner. ``End funktion skal gøre 1 ting, og gøre det godt!''. Bare tænk på $\sin(x)$.}
+    \item Indeholder, nederst, kode til de globale funktioner, der er defineret i \texttt{spi.h}.
+\end{itemize}
 
+\chapter{Kodeeksempel}
+\begin{lstlisting}[language=c, caption=spi.h]
+#include <stdio.h>
 
+#ifndef SPI_H
+#define SPI_H
+#define RED 0x00FF0000
+#define BLUE 0x0000FF00
+#define GREEN 0x000000FF
 
+#define MAX(A,B) a>b?a:b
+#define udelay(us) _delay_us(us)
+
+typedef struct {
+    unsigned char mosi;
+    unsigned char miso;
+    unsigned char sck;
+} spi_adapter;
+
+/**
+ * Sends one byte via SPI.
+ * @param byte Data byte to be sent.
+ * @param divide Number to divide the clock by.
+ * @param slave ID of the slave to send to.
+ *
+ * @return 0 = success, SPI_ENACK = No acknowledge.
+ */
+int spi_send_byte (unsigned char byte, unsigned byte divide,
+                   unsigned char slave);
+
+#endif
+\end{lstlisting}
+
+\begin{lstlisting}[language=c, caption=spi.c]
+#include "spi.h"
+
+static void startclk ()
+{
+    SPICTL |= 0x01;
+}
+
+int spi_send_byte (unsigned char byte, unsigned byte divide,
+                   unsigned char slave)
+{
+    printf ("Så er den sendt...\n");
+
+    if (SPICTL & 0x01)
+        return 0;
+    else
+        return SPI_ENACK;
+}
+\end{lstlisting}
+
+\begin{lstlisting}[language=c, caption=main.c]
+#include "spi.h"
+
+int main ()
+{
+    unsigned char input, c;
+
+    input = getchar ();
+    switch (input) {
+    case 0x01:
+        spi_send_byte (0x01, 1, 0x01);
+        break;
+
+    case 0x02:
+        c = spi_receive_byte ();
+        break;
+
+    default:
+        printf ("Command unknown: %x\n", input);
+        goto bailout;
+    }
+
+    if (c > 100)
+        printf ("Det var et ordentligt tal!\n");
+    else
+        printf ("Ja det fint...");
+
+    if (c == 0x01) {
+        change_color (BLUE);
+        printf ("Skiftet til blå");
+    } else if (c == 0x02) {
+        change_color (RED);
+        printf ("Skiftet til rød");
+    } else {
+        change_color (green);
+        printf ("Skiftet til grøn");
+    }
+
+    if (c < 10 || input == 0x03 || input == 0x04
+        || input == 0x05) {
+        print_help ();
+        delay (1000);
+    }
+
+    return 0;
+
+bailout:
+    return -1;
+}
+\end{lstlisting}
 
 \end{document}
