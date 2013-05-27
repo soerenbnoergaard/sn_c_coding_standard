@@ -129,8 +129,8 @@ syntax enable
     \chapter{Navngivning}
     \begin{itemize}
         \item Alle navne skrives på engelsk.
-        \item Globale funktioner (der ikke er \texttt{static}), bør have sigende, unikke navne som \texttt{spi\_send\_byte ()}.
-        \item Funktioner der er static (kun kan ses i den kildefil de er i), bør have korte navne, der er sigende indenfor filens eget område (eks. \texttt{startclk ()})
+        \item Globale funktioner (der ikke er \texttt{static}), bør have sigende, unikke navne som \texttt{spi\_send\_byte()}.
+        \item Funktioner der er static (kun kan ses i den kildefil de er i), bør have korte navne, der er sigende indenfor filens eget område (eks. \texttt{startclk()})
         \item Samme gælder variable: Globale variable skal have lange/sigende navne, mens lokale variable bør holdes korte, og sigende indenfor sin givne funktion.
         \item Funktions- og variabelnavne skrives kun med små bogstaver, og ord er separerede med \texttt{\_}.
         \item Ofte brugte variabelnavne er:
@@ -143,7 +143,7 @@ syntax enable
                 \item \texttt{l} til long.
                 \item \texttt{n} til ints.
             \end{itemize}
-        \item Ved ``modsatte'' funktioner benyttes modsat navngivning. Eksempeltvis: \texttt{setclk ()} og \texttt{getsck ()}, \texttt{readbyte ()} og \texttt{writebyte ()} osv.
+        \item Ved ``modsatte'' funktioner benyttes modsat navngivning. Eksempeltvis: \texttt{setclk()} og \texttt{getsck()}, \texttt{readbyte()} og \texttt{writebyte()} osv.
         \item Defines skrives med \texttt{BLOKBOGSTAVER}, og makroer ligeså. Eks. \texttt{\#define MAX(A,B) a>b?a:b}. 
             
             Hvis makroer opfører sig som funktioner, skrives de som funktioner. Eks. \texttt{\#define\ udelay(us) \_delay\_us(us)}.
@@ -235,8 +235,8 @@ typedef struct {
  *
  * @return 0 = success, SPI_ENACK = No acknowledge.
  */
-int spi_send_byte (unsigned char byte, unsigned byte divide,
-                   unsigned char slave);
+int spi_send_byte(unsigned char byte, unsigned byte divide,
+                  unsigned char slave);
 
 #endif
 \end{lstlisting}
@@ -247,15 +247,15 @@ int spi_send_byte (unsigned char byte, unsigned byte divide,
 \begin{lstlisting}[language=c]
 #include "spi.h"
 
-static void startclk ()
+static void startclk()
 {
     SPICTL |= 0x01;
 }
 
-int spi_send_byte (unsigned char byte, unsigned byte divide,
-                   unsigned char slave)
+int spi_send_byte(unsigned char byte, unsigned byte divide,
+                  unsigned char slave)
 {
-    printf ("Så er den sendt...\n");
+    printf("Så er den sendt...\n");
 
     if (SPICTL & 0x01)
         return 0;
@@ -272,22 +272,22 @@ int spi_send_byte (unsigned char byte, unsigned byte divide,
 \begin{lstlisting}[language=c]
 #include "spi.h"
 
-int main ()
+int main()
 {
     unsigned char input, c;
 
-    input = getchar ();
+    input = getchar();
     switch (input) {
     case 0x01:
-        spi_send_byte (0x01, 1, 0x01);
+        spi_send_byte(0x01, 1, 0x01);
         break;
 
     case 0x02:
-        c = spi_receive_byte ();
+        c = spi_receive_byte();
         break;
 
     default:
-        printf ("Command unknown: %x\n", input);
+        printf("Command unknown: %x\n", input);
         goto bailout;
     }
 
@@ -296,25 +296,25 @@ int main ()
      * for this standard */
 
     if (c > 100)
-        printf ("Det var et ordentligt tal!\n");
+        printf("Det var et ordentligt tal!\n");
     else
-        printf ("Ja det fint...");
+        printf("Ja det fint...");
 
     if (c == 0x01) {                  /* Switch colors. */
-        change_color (BLUE);
-        printf ("Skiftet til blå");
+        change_color(BLUE);
+        printf("Skiftet til blå");
     } else if (c == 0x02) {
-        change_color (RED);
-        printf ("Skiftet til rød");
+        change_color(RED);
+        printf("Skiftet til rød");
     } else {
-        change_color (green);
-        printf ("Skiftet til grøn");
+        change_color(green);
+        printf("Skiftet til grøn");
     }
 
     if (c < 10 || input == 0x03 || input == 0x04
         || input == 0x05) {
-        print_help ();
-        delay (1000);
+        print_help();
+        delay(1000);
     }
 
     return 0;
