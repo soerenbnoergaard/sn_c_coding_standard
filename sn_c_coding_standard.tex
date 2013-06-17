@@ -51,49 +51,49 @@
 \maketitle
 \begin{multicols}{2}
 
-{
-    \itshape
-    Dette dokumenterer en kodestil, der med fordel kan anvendes i sproget C. Hvis ikke andre kodestile er krævet, kan denne med fordel følges, for at skabe ens udseende kode i projektet. At anvende ens kodestil i et projekt gør koden lettere at læse, da alting er at finde på samme plads.
+    {
+        \itshape
+        Dette dokumenterer en kodestil, der med fordel kan anvendes i sproget C. Hvis ikke andre kodestile er krævet, kan denne med fordel følges, for at skabe ens udseende kode i projektet. At anvende ens kodestil i et projekt gør koden lettere at læse, da alting er at finde på samme plads.
 
-    Denne kodestil tager udgangspunkt i Kerninghan \& Richie's kodestil (K\&R), og har desuden hentet inspiration fra Linux- kernelen mm.
+        Denne kodestil tager udgangspunkt i Kerninghan \& Richie's kodestil (K\&R), og har desuden hentet inspiration fra Linux- kernelen mm.
 
-    På de sidste sider er et kodeeksempel, hvor de fleste dele er eksemplificeret. (Koden gør absolut intet, men gør det måske lettere at forstå hvad der menes).
+        På de sidste sider er et kodeeksempel, hvor de fleste dele er eksemplificeret. (Koden gør absolut intet, men gør det måske lettere at forstå hvad der menes).
 
-    God kodning!
-}
-\tableofcontents
+        God kodning!
+    }
+    \tableofcontents
 
     \chapter{Visuel organisering}
     Visuel opsætning af kode, herunder indentering og parentes-sætning (curly brackets).
 
     \section{Indentering}
     \begin{itemize}
-        \item Identering er 4 spaces.
-        \item Labels, ifm. \texttt{goto}'s, indenteres ikke, og sættes helt til venstre.
-        \item Labels/\texttt{case}s ifm. \texttt{switch}e indenteres på samme niveau som \texttt{switch}. Efter afsluttende \texttt{break} laves en tom linje før næste \texttt{case}.
+    \item Identering er 4 spaces.
+    \item Labels, ifm. \texttt{goto}'s, indenteres ikke, og sættes helt til venstre.
+    \item Labels/\texttt{case}s ifm. \texttt{switch}e indenteres på samme niveau som \texttt{switch}. Efter afsluttende \texttt{break} laves en tom linje før næste \texttt{case}.
     \end{itemize}
 
     \section{Curly brackets}
     \begin{itemize}
-        \item Curly brackets sættes på samme linje som udtrykket det tilhører (\texttt{if}, \texttt{while} etc.), pånær ved funktioner!
-        \item Ved funktioner sættes curly brackets på linjen under funktionsudtrykket, som en linje for sig.
-        \item Brug ikke curly brackets efter \texttt{if}, \texttt{else}, \texttt{for}, \texttt{while}, hvis kun en enkelt statement følger. Denne sættes på en linje for sig, og indenteres.
-        \item I \texttt{if .. else if .. else}-strukturer, sættes \texttt{else if }og \texttt{else} på samme linje som tidligere niveaus afsluttende curly bracket.
-        \item Efter sluttende curly bracket i en \texttt{do-while} konstruktion, sættes \texttt{while} på samme linje.
+    \item Curly brackets sættes på samme linje som udtrykket det tilhører (\texttt{if}, \texttt{while} etc.), pånær ved funktioner!
+    \item Ved funktioner sættes curly brackets på linjen under funktionsudtrykket, som en linje for sig.
+    \item Brug ikke curly brackets efter \texttt{if}, \texttt{else}, \texttt{for}, \texttt{while}, hvis kun en enkelt statement følger. Denne sættes på en linje for sig, og indenteres.
+    \item I \texttt{if .. else if .. else}-strukturer, sættes \texttt{else if }og \texttt{else} på samme linje som tidligere niveaus afsluttende curly bracket.
+    \item Efter sluttende curly bracket i en \texttt{do-while} konstruktion, sættes \texttt{while} på samme linje.
     \end{itemize}
 
     \section{Whitespace}
     \begin{itemize}
-        \item Whitespace benyttes konsekvent til at opdele dele af koden, der ikke hører sammen -- ligesom man ville gøre med afsnit i en bog.
-        \item Der benyttes (som hovedregel) ikke mere end 1 tom linje til at opdele kode.
+    \item Whitespace benyttes konsekvent til at opdele dele af koden, der ikke hører sammen -- ligesom man ville gøre med afsnit i en bog.
+    \item Der benyttes (som hovedregel) ikke mere end 1 tom linje til at opdele kode.
     \end{itemize}
 
     \section{Linjelængde}
     \begin{itemize}
-        \item Linjer skal holdes under 80 karakterer. Dette er gammel praksis, men er meget smart hvis man vil printe kode i en rapport eksempeltvis.
-        \item Hvis funktioners parametre fylder mere end 80 karakteres, kan linjen knækkes ved et komma, og alignes under funktionens begyndende parentes (under første parameter).
-        \item Hvis andre strukturer \texttt{if}, \texttt{for} osv. bliver for lange, kan disse flyttes ned på næste linje, og indentes. Deles der ved operatorer kan disse med fordel placeres på den nye linje.
-        \item Lange konstante strings, må gerne overstige 80 karakterer, for at gøre det lettere at søge på dem.
+    \item Linjer skal holdes under 80 karakterer. Dette er gammel praksis, men er meget smart hvis man vil printe kode i en rapport eksempeltvis.
+    \item Hvis funktioners parametre fylder mere end 80 karakteres, kan linjen knækkes ved et komma, og alignes under funktionens begyndende parentes (under første parameter).
+    \item Hvis andre strukturer \texttt{if}, \texttt{for} osv. bliver for lange, kan disse flyttes ned på næste linje, og indentes. Deles der ved operatorer kan disse med fordel placeres på den nye linje.
+    \item Lange konstante strings, må gerne overstige 80 karakterer, for at gøre det lettere at søge på dem.
     \end{itemize}
 
     \section{Editor-opsætning}
@@ -128,53 +128,53 @@ syntax enable
 
     \chapter{Navngivning}
     \begin{itemize}
-        \item Alle navne skrives på engelsk.
-        \item Globale funktioner (der ikke er \texttt{static}), bør have sigende, unikke navne som \texttt{spi\_send\_byte ()}.
-        \item Funktioner der er static (kun kan ses i den kildefil de er i), bør have korte navne, der er sigende indenfor filens eget område (eks. \texttt{startclk ()})
-        \item Samme gælder variable: Globale variable skal have lange/sigende navne, mens lokale variable bør holdes korte, og sigende indenfor sin givne funktion.
-        \item Funktions- og variabelnavne skrives kun med små bogstaver, og ord er separerede med \texttt{\_}.
-        \item Ofte brugte variabelnavne er:
-            \begin{itemize}
-                \item \texttt{i, j, k} til indeksering.
-                \item \texttt{p, q} til pointere.
-                \item \texttt{c} til karakterer.
-                \item \texttt{s} til string.
-                \item \texttt{x, y, z} til floats/doubles.
-                \item \texttt{l} til long.
-                \item \texttt{n} til ints.
-            \end{itemize}
-        \item Ved ``modsatte'' funktioner benyttes modsat navngivning. Eksempeltvis: \texttt{setclk ()} og \texttt{getsck ()}, \texttt{readbyte ()} og \texttt{writebyte ()} osv.
-        \item Defines skrives med \texttt{BLOKBOGSTAVER}, og makroer ligeså. Eks. \texttt{\#define MAX(A,B) a>b?a:b}. 
-            
-            Hvis makroer opfører sig som funktioner, skrives de som funktioner. Eks. \texttt{\#define\ udelay(us) \_delay\_us(us)}.
-        \item Fejlkoder defineres som negative tal, er sigende for koden den beskriver, og indeholder et \texttt{E} for error. Eks: \texttt{\#define SPI\_ENACK} for en fejl ved et spi-modul, der bliver NACK’et.
+    \item Alle navne skrives på engelsk.
+    \item Globale funktioner (der ikke er \texttt{static}), bør have sigende, unikke navne som \texttt{spi\_send\_byte()}.
+    \item Funktioner der er static (kun kan ses i den kildefil de er i), bør have korte navne, der er sigende indenfor filens eget område (eks. \texttt{startclk()})
+    \item Samme gælder variable: Globale variable skal have lange/sigende navne, mens lokale variable bør holdes korte, og sigende indenfor sin givne funktion.
+    \item Funktions- og variabelnavne skrives kun med små bogstaver, og ord er separerede med \texttt{\_}.
+    \item Ofte brugte variabelnavne er:
+        \begin{itemize}
+        \item \texttt{i, j, k} til indeksering.
+        \item \texttt{p, q} til pointere.
+        \item \texttt{c} til karakterer.
+        \item \texttt{s} til string.
+        \item \texttt{x, y, z} til floats/doubles.
+        \item \texttt{l} til long.
+        \item \texttt{n} til ints.
+        \end{itemize}
+    \item Ved ``modsatte'' funktioner benyttes modsat navngivning. Eksempeltvis: \texttt{setclk()} og \texttt{getsck()}, \texttt{readbyte()} og \texttt{writebyte()} osv.
+    \item Defines skrives med \texttt{BLOKBOGSTAVER}, og makroer ligeså. Eks. \texttt{\#define MAX(A,B) a>b?a:b}. 
+
+        Hvis makroer opfører sig som funktioner, skrives de som funktioner. Eks. \texttt{\#define\ udelay(us) \_delay\_us(us)}.
+    \item Fejlkoder defineres som negative tal, er sigende for koden den beskriver, og indeholder et \texttt{E} for error. Eks: \texttt{\#define SPI\_ENACK} for en fejl ved et spi-modul, der bliver NACK’et.
     \end{itemize}
 
     \chapter{Kommentarer og kodedokumentation}
 
     \section{Dokumenterende kommentarer}
     \begin{itemize}
-        \item Før hver globale funktion, indsættes en blokkommentar, der starter med \texttt{/**}, og har en \texttt{*} indenteret med 1 space for hver linje. Blokken afsluttes med en tom linje med \texttt{*/}.
-        \item Blokken startes med en kort beskrivelse af hvad funktionen gør.
-        \item For hver parameter indsættes en linje begyndende med \texttt{@param x Beskrivelse af x.}.
-        \item For returværdier indsættes en linje som: \texttt{@return 0 = success, SPI\_ENACK = No acknowledge.}, hvor alle returværdiers betydning dokumenteres.
-        \item Dokumenterende kommentarer til funktioner forefindes ved funktionernes prototyper (i \texttt{.h}-filer).
-        \item static funktioner (i \texttt{.c}-filer) kan med fordel indeholde en kommentar over funktionen, der forklarer returværdier, men bør ellers være sigende i sig selv.
-        \item Dokumentation skrives på engelsk.
+    \item Før hver globale funktion, indsættes en blokkommentar, der starter med \texttt{/**}, og har en \texttt{*} indenteret med 1 space for hver linje. Blokken afsluttes med en tom linje med \texttt{*/}.
+    \item Blokken startes med en kort beskrivelse af hvad funktionen gør.
+    \item For hver parameter indsættes en linje begyndende med \texttt{@param x Beskrivelse af x.}.
+    \item For returværdier indsættes en linje som: \texttt{@return 0 = success, SPI\_ENACK = No acknowledge.}, hvor alle returværdiers betydning dokumenteres.
+    \item Dokumenterende kommentarer til funktioner forefindes ved funktionernes prototyper (i \texttt{.h}-filer).
+    \item static funktioner (i \texttt{.c}-filer) kan med fordel indeholde en kommentar over funktionen, der forklarer returværdier, men bør ellers være sigende i sig selv.
+    \item Dokumentation skrives på engelsk.
     \end{itemize}
 
     \section{Almindelige kommentarer}
     \begin{itemize}
-        \item Forsøg at lave din kode så forståelig som muligt uden kommentarer, og brug dem kun hvor det er nødvendigt.
-        \item Skriv ikke unødvendige kommentarer (``\texttt{i++; /* i is incremented by 1. */}'').
-        \item Kommenter så vidt muligt for enden af en linje, så koden kan læses uforstyrret. Hvis en stor kommentar skal knyttes, skriv den da som en blokkommentar som her:
-            \begin{lstlisting}
+    \item Forsøg at lave din kode så forståelig som muligt uden kommentarer, og brug dem kun hvor det er nødvendigt.
+    \item Skriv ikke unødvendige kommentarer (``\texttt{i++; /* i is incremented by 1. */}'').
+    \item Kommenter så vidt muligt for enden af en linje, så koden kan læses uforstyrret. Hvis en stor kommentar skal knyttes, skriv den da som en blokkommentar som her:
+        \begin{lstlisting}
 /* FIXME:
  * Some work needs to be done, to let
  * the user know an ACK has occured. */
-            \end{lstlisting}
-            med en tom linje under og over, så kommentaren står for sig selv.
-        \item Kommentarer skrives på engelsk, og skrives som om man skriver til kode. Eks: \texttt{/* Find the student with the best grades. */}.
+        \end{lstlisting}
+        med en tom linje under og over, så kommentaren står for sig selv.
+    \item Kommentarer skrives på engelsk, og skrives som om man skriver til kode. Eks: \texttt{/* Find the student with the best grades. */}.
     \end{itemize}
 
     \chapter{Filopdeling}
@@ -184,32 +184,32 @@ syntax enable
 
     \section{main.c}
     \begin{itemize}
-        \item Inkluderer \texttt{spi.h}.
-        \item Benytter funktioner herfra.
+    \item Inkluderer \texttt{spi.h}.
+    \item Benytter funktioner herfra.
     \end{itemize}
 
     \section{spi.h}
     \begin{itemize}
-        \item Indeholder prototyper til globale funktioner.
-        \item Indeholder tilhørende dokumentation af disse funktioner.
-        \item Indeholder \texttt{typedef}s, \texttt{struct}s og \texttt{\#define}s tilhørende biblioteket. Generelt anvendes \texttt{struct}s uden \texttt{typedef}.
+    \item Indeholder prototyper til globale funktioner.
+    \item Indeholder tilhørende dokumentation af disse funktioner.
+    \item Indeholder \texttt{typedef}s, \texttt{struct}s og \texttt{\#define}s tilhørende biblioteket. Generelt anvendes \texttt{struct}s uden \texttt{typedef}.
     \end{itemize}
 
     \section{spi.c}
     \begin{itemize}
-        \item Inkluderer \texttt{spi.h}.
-        \item Indeholder, øverst, statiske funktioner, der benyttes senere i globale funktioner.\footnote{\texttt{static}-funktioner benyttes for at dele koden om i simplere underfunktioner. ``End funktion skal gøre 1 ting, og gøre det godt!''. Bare tænk på $\sin(x)$.}
-        \item Indeholder, nederst, kode til de globale funktioner, der er defineret i \texttt{spi.h}.
+    \item Inkluderer \texttt{spi.h}.
+    \item Indeholder, øverst, statiske funktioner, der benyttes senere i globale funktioner.\footnote{\texttt{static}-funktioner benyttes for at dele koden om i simplere underfunktioner. ``End funktion skal gøre 1 ting, og gøre det godt!''. Bare tænk på $\sin(x)$.}
+    \item Indeholder, nederst, kode til de globale funktioner, der er defineret i \texttt{spi.h}.
     \end{itemize}
 \end{multicols}
 
 \clearpage
 \begin{landscape}
-\begin{multicols}{2}
-\chapter{Kodeeksempel}
-\section{spi.h}
+    \begin{multicols}{2}
+        \chapter{Kodeeksempel}
+        \section{spi.h}
 
-\begin{lstlisting}[language=c]
+        \begin{lstlisting}[language=c]
 #include <stdio.h>
 
 #ifndef SPI_H
@@ -241,12 +241,12 @@ int spi_send_byte(unsigned char byte, unsigned byte divide,
                   unsigned char slave);
 
 #endif
-\end{lstlisting}
+        \end{lstlisting}
 
-\vfill
-\columnbreak
-\section{spi.c}
-\begin{lstlisting}[language=c]
+        \vfill
+        \columnbreak
+        \section{spi.c}
+        \begin{lstlisting}[language=c]
 #include "spi.h"
 
 static void startclk()
@@ -264,14 +264,13 @@ int spi_send_byte(unsigned char byte, unsigned byte divide,
     else
         return SPI_ENACK;
 }
+        \end{lstlisting}
 
-\end{lstlisting}
+        \vfill
+        \columnbreak
 
-\vfill
-\columnbreak
-
-\section{main.c}
-\begin{lstlisting}[language=c]
+        \section{main.c}
+        \begin{lstlisting}[language=c]
 #include "spi.h"
 
 int main(void)
@@ -305,7 +304,7 @@ int main(void)
     if (c == 0x01) {                  /* Switch colors. */
         change_color(BLUE);
         printf("Skiftet til blå");
-    } else if(c == 0x02) {
+    } else if (c == 0x02) {
         change_color(RED);
         printf("Skiftet til rød");
     } else {
@@ -324,8 +323,8 @@ int main(void)
 bailout:
     return -1;
 }
-\end{lstlisting}
-\end{multicols}
+        \end{lstlisting}
+    \end{multicols}
 \end{landscape}
 
 \end{document}
