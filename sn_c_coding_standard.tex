@@ -192,7 +192,7 @@ syntax enable
     \begin{itemize}
         \item Indeholder prototyper til globale funktioner.
         \item Indeholder tilhørende dokumentation af disse funktioner.
-        \item Indeholder \texttt{typedef}s, \texttt{struct}s og \texttt{\#define}s tilhørende biblioteket.
+        \item Indeholder \texttt{typedef}s, \texttt{struct}s og \texttt{\#define}s tilhørende biblioteket. Generelt anvendes \texttt{struct}s uden \texttt{typedef}.
     \end{itemize}
 
     \section{spi.c}
@@ -221,11 +221,13 @@ syntax enable
 #define MAX(A,B) a>b?a:b
 #define udelay(us) _delay_us(us)
 
-typedef struct {
+typedef unsigned char u8;
+
+struct spi_adapter {
     unsigned char mosi;
     unsigned char miso;
     unsigned char sck;
-} spi_adapter;
+};
 
 /**
  * Sends one byte via SPI.
