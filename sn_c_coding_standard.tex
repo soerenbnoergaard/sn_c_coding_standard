@@ -41,7 +41,7 @@
   showstringspaces=false,
   captionpos=b,
   keywordstyle=\color{blue!70!black},
-  commentstyle=\color{gray}
+  commentstyle=\color{red!50!black}
 }
 
 \title{C kodestandard}
@@ -169,9 +169,11 @@ syntax enable
     \item Skriv ikke unødvendige kommentarer (``\texttt{i++; /* i is incremented by 1. */}'').
     \item Kommenter så vidt muligt for enden af en linje, så koden kan læses uforstyrret. Hvis en stor kommentar skal knyttes, skriv den da som en blokkommentar som her:
         \begin{lstlisting}
-/* FIXME:
+/* 
+ * FIXME:
  * Some work needs to be done, to let
- * the user know an ACK has occured. */
+ * the user know an ACK has occured. 
+ */
         \end{lstlisting}
         med en tom linje under og over, så kommentaren står for sig selv.
     \item Kommentarer skrives på engelsk, og skrives som om man skriver til kode. Eks: \texttt{/* Find the student with the best grades. */}.
@@ -292,16 +294,18 @@ int main(void)
         goto bailout;
     }
 
-    /* Underneath are some different 
+    /* 
+     * Underneath are some different 
      * ways to use if-else statements
-     * for this standard */
+     * for this standard 
+     */
 
     if (c > 100)
         printf("Det var et ordentligt tal!\n");
     else
         printf("Ja det fint...");
 
-    if (c == 0x01) {                  /* Switch colors. */
+    if (c == 0x01) {  /* Switch colors. */
         change_color(BLUE);
         printf("Skiftet til blå");
     } else if (c == 0x02) {
