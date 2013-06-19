@@ -68,7 +68,7 @@
 
     \section{Indentering}
     \begin{itemize}
-    \item Identering er 4 spaces.
+    \item Identering er 8 spaces.
     \item Labels, ifm. \texttt{goto}'s, indenteres ikke, og sættes helt til venstre.
     \item Labels/\texttt{case}s ifm. \texttt{switch}e indenteres på samme niveau som \texttt{switch}. Efter afsluttende \texttt{break} laves en tom linje før næste \texttt{case}.
     \end{itemize}
@@ -226,9 +226,9 @@ syntax enable
 typedef unsigned char u8;
 
 struct spi_adapter {
-    unsigned char mosi;
-    unsigned char miso;
-    unsigned char sck;
+        unsigned char mosi;
+        unsigned char miso;
+        unsigned char sck;
 };
 
 /**
@@ -253,18 +253,18 @@ int spi_send_byte(unsigned char byte, unsigned byte divide,
 
 static void startclk()
 {
-    SPICTL |= 0x01;
+        SPICTL |= 0x01;
 }
 
 int spi_send_byte(unsigned char byte, unsigned byte divide,
                   unsigned char slave)
 {
-    printf("Så er den sendt...\n");
+        printf("Så er den sendt...\n");
 
-    if (SPICTL & 0x01)
-        return 0;
-    else
-        return SPI_ENACK;
+        if (SPICTL & 0x01)
+                return 0;
+        else
+                return SPI_ENACK;
 }
         \end{lstlisting}
 
@@ -277,55 +277,55 @@ int spi_send_byte(unsigned char byte, unsigned byte divide,
 
 int main(void)
 {
-    unsigned char input, c;
+        unsigned char input, c;
 
-    input = getchar();
-    switch (input) {
-    case 0x01:
-        spi_send_byte(0x01, 1, 0x01);
-        break;
+        input = getchar();
+        switch (input) {
+        case 0x01:
+                spi_send_byte(0x01, 1, 0x01);
+                break;
 
-    case 0x02:
-        c = spi_receive_byte();
-        break;
+        case 0x02:
+                c = spi_receive_byte();
+                break;
 
-    default:
-        printf("Command unknown: %x\n", input);
-        goto bailout;
-    }
+        default:
+                printf("Command unknown: %x\n", input);
+                goto bailout;
+        }
 
-    /* 
-     * Underneath are some different 
-     * ways to use if-else statements
-     * for this standard 
-     */
+        /* 
+         * Underneath are some different 
+         * ways to use if-else statements
+         * for this standard 
+         */
+    
+        if (c > 100)
+                printf("Det var et ordentligt tal!\n");
+        else
+                printf("Ja det fint...");
 
-    if (c > 100)
-        printf("Det var et ordentligt tal!\n");
-    else
-        printf("Ja det fint...");
+        if (c == 0x01) {  /* Switch colors. */
+                change_color(BLUE);
+                printf("Skiftet til blå");
+        } else if (c == 0x02) {
+                change_color(RED);
+                printf("Skiftet til rød");
+        } else {
+                change_color(green);
+                printf("Skiftet til grøn");
+        }
 
-    if (c == 0x01) {  /* Switch colors. */
-        change_color(BLUE);
-        printf("Skiftet til blå");
-    } else if (c == 0x02) {
-        change_color(RED);
-        printf("Skiftet til rød");
-    } else {
-        change_color(green);
-        printf("Skiftet til grøn");
-    }
+        if (c < 10 || input == 0x03 || input == 0x04
+                || input == 0x05) {
+                print_help();
+                delay(1000);
+        }
 
-    if (c < 10 || input == 0x03 || input == 0x04
-        || input == 0x05) {
-        print_help();
-        delay(1000);
-    }
-
-    return 0;
+        return 0;
 
 bailout:
-    return -1;
+        return -1;
 }
         \end{lstlisting}
     \end{multicols}
