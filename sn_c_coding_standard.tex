@@ -92,7 +92,7 @@
     \begin{itemize}
     \item Linjer skal holdes under 80 karakterer. Dette er gammel praksis, men er meget smart hvis man vil printe kode i en rapport eksempeltvis.
     \item Hvis funktioners parametre fylder mere end 80 karakteres, kan linjen knækkes ved et komma, og alignes under funktionens begyndende parentes (under første parameter).
-    \item Hvis andre strukturer \texttt{if}, \texttt{for} osv. bliver for lange, kan disse flyttes ned på næste linje, og indentes. Deles der ved operatorer kan disse med fordel placeres på den nye linje.
+    \item Hvis andre strukturer \texttt{if}, \texttt{for} osv. bliver for lange, kan disse flyttes ned på næste linje, og indentes ligesom funktioner ovenfor. Deles der ved operatorer kan disse med fordel placeres på den nye linje.
     \item Lange konstante strings, må gerne overstige 80 karakterer, for at gøre det lettere at søge på dem.
     \end{itemize}
 
@@ -317,7 +317,7 @@ int main(void)
         }
 
         if (c < 10 || input == 0x03 || input == 0x04
-                || input == 0x05) {
+            || input == 0x05) {
                 print_help();
                 delay(1000);
         }
