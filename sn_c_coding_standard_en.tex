@@ -89,17 +89,17 @@
 
     \section{Line length}
     \begin{itemize}
-    \item Linjer skal holdes under 80 karakterer. Dette er gammel praksis, men er meget smart hvis man vil printe kode i en rapport eksempeltvis.
-    \item Hvis funktioners parametre fylder mere end 80 karakteres, kan linjen knækkes ved et komma, og alignes under funktionens begyndende parentes (under første parameter).
-    \item Hvis andre strukturer \texttt{if}, \texttt{for} osv. bliver for lange, kan disse flyttes ned på næste linje, og indentes ligesom funktioner ovenfor. Deles der ved operatorer kan disse med fordel placeres på den nye linje.
-    \item Lange konstante strings, må gerne overstige 80 karakterer, for at gøre det lettere at søge på dem.
+    \item Lines should be kept shorter that 80 characters. This is old pratice, but is generally smart if you, for example, are printing the code in a report.
+    \item If a functions parameters are more than 80 characters, the line can be split after a comma, and aligning the next parameter below the beginning parenthesis of the function (below the first argument).
+    \item If other structures like \texttt{if}, \texttt{for} and so on become to long, these can be split over several lines, by indenting under the parenthesis, like for functions. If the split is by an operater, this should be put on the next line.
+    \item Long constant strings can become longer than 80 characters, to make it easier to search for them.
     \end{itemize}
 
-    \section{Editor-opsætning}
-    Meget at ovenstående kan gøres automatisk af din editor, hvis den sættes ordentligt op. Herunder er en vejledning til at sætte et par editorer op.
+    \section{Editor setup}
+    Much of the above can be done automatically by your editor, if it is set up properly. Below is a guide for setting up some popular editors.
 
     \subsection{Vim}
-    I Vim gives ovennævnte effekt ved at placere følgende i opstartsfilen \verb|~/.vimrc|:
+    In Vim the above effect is given, by putting the following in the init file: \verb|~/.vimrc|:
     \begin{lstlisting}
 set encoding=utf-8
 set tabstop=4
@@ -112,7 +112,7 @@ syntax enable
     \end{lstlisting}
 
     \subsection{Emacs}
-    I Emacs indsættes følgende i opstartsfilen \texttt{~/.emacs} eller \verb|~/.emacs.d/init.el|:
+    In Emacs the following is put in the init file: \verb|~/.emacs| or \verb|~/.emacs.d/init.el|:
     \begin{lstlisting}
 (setq-default tab-width 4)
 (setq-default c-basic-offset 4)
@@ -126,48 +126,48 @@ syntax enable
 (setq x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING))
     \end{lstlisting}
 
-    \chapter{Navngivning}
+    \chapter{Naming conventions}
     \begin{itemize}
-    \item Alle navne skrives på engelsk.
-    \item Globale funktioner (der ikke er \texttt{static}), bør have sigende, unikke navne som \texttt{spi\_send\_byte()}.
-    \item Funktioner der er static (kun kan ses i den kildefil de er i), bør have korte navne, der er sigende indenfor filens eget område (eks. \texttt{startclk()})
-    \item Samme gælder variable: Globale variable skal have lange/sigende navne, mens lokale variable bør holdes korte, og sigende indenfor sin givne funktion.
-    \item Funktions- og variabelnavne skrives kun med små bogstaver, og ord er separerede med \texttt{\_}.
-    \item Ofte brugte variabelnavne er:
+    \item All names are in English.
+    \item Global fuctions (those that are not \texttt{static}), should have very descriptive and unique names, like \texttt{spi\_send\_byte()}.
+    \item \texttt{static} functions (only seen from the source file that contains them), should have short names, that are descriptive in the file context they are in, like \texttt{startclk()}.
+    \item Same goes for variables: Global variables should have long/descriptive names, while local variables should be kept short, and descriptive inside the given function.
+    \item Function and variable names are written only in lower case, with words separated by \texttt{\_}.
+    \item Often used (local) variable names, are:
         \begin{itemize}
-        \item \texttt{i, j, k} til indeksering.
-        \item \texttt{p, q} til pointere.
-        \item \texttt{c} til karakterer.
-        \item \texttt{s} til string.
-        \item \texttt{x, y, z} til floats/doubles.
-        \item \texttt{l} til long.
-        \item \texttt{n} til ints.
+        \item \texttt{i, j, k} for indexes.
+        \item \texttt{p, q} for pointers.
+        \item \texttt{c} for characters.
+        \item \texttt{s} for strings
+        \item \texttt{x, y, z} for floats/doubles.
+        \item \texttt{l} for longs.
+        \item \texttt{n} for ints.
         \end{itemize}
-    \item Ved ``modsatte'' funktioner benyttes modsat navngivning. Eksempeltvis: \texttt{setclk()} og \texttt{getsck()}, \texttt{readbyte()} og \texttt{writebyte()} osv.
-    \item Defines skrives med \texttt{BLOKBOGSTAVER}, og makroer ligeså. Eks. \texttt{\#define MAX(A,B) a>b?a:b}. 
+    \item By ``opposite'' functions, opposite names are used. Example: \texttt{secsck()} and \texttt{getsch()}, \texttt{readbyte()} and \texttt{writebyte()}, and so on.
+    \item Defines are written in \texttt{UPPERCASE}, and so are macros. Example: \texttt{\#define MAX(A,B) a>b?a:b}. 
 
-        Hvis makroer opfører sig som funktioner, skrives de som funktioner. Eks. \texttt{\#define\ udelay(us) \_delay\_us(us)}.
-    \item Fejlkoder defineres som negative tal, er sigende for koden den beskriver, og indeholder et \texttt{E} for error. Eks: \texttt{\#define SPI\_ENACK} for en fejl ved et spi-modul, der bliver NACK’et.
+        If macros act like functions, they are written like functions: \texttt{\#define\ udelay(us) \_delay\_us(us)}.
+    \item Error messages are defines as \emph{negative} numbers, that are descriptive of context, and contains and \texttt{E} for ``error''. Example: \texttt{\#define SPI\_ENACK} for an erro on an SPI module that gets NACK'ed.
     \end{itemize}
 
-    \chapter{Kommentarer og kodedokumentation}
+    \chapter{Comments and code documentation}
 
-    \section{Dokumenterende kommentarer}
+    \section{Documenting comments}
     \begin{itemize}
-    \item Før hver globale funktion, indsættes en blokkommentar, der starter med \texttt{/**}, og har en \texttt{*} indenteret med 1 space for hver linje. Blokken afsluttes med en tom linje med \texttt{*/}.
-    \item Blokken startes med en kort beskrivelse af hvad funktionen gør.
-    \item For hver parameter indsættes en linje begyndende med \texttt{@param x Beskrivelse af x.}.
-    \item For returværdier indsættes en linje som: \texttt{@return 0 = success, SPI\_ENACK = No acknowledge.}, hvor alle returværdiers betydning dokumenteres.
-    \item Dokumenterende kommentarer til funktioner forefindes ved funktionernes prototyper (i \texttt{.h}-filer).
-    \item static funktioner (i \texttt{.c}-filer) kan med fordel indeholde en kommentar over funktionen, der forklarer returværdier, men bør ellers være sigende i sig selv.
-    \item Dokumentation skrives på engelsk.
+    \item Before every global function there is a block comment, that starts with \texttt{/**} and has \texttt{*} indented 1 space for each line. The block is terminated by and empty line of \texttt{ */}
+    \item The block is started by a short description of what the function does.
+    \item For every parameter, there is a line starting with \texttt{@param x Description of x.}
+    \item For return values is a line like: \texttt{@return 0 = success, SPI\_ENACK = No acknowledge.}, there all return values are descriped.
+    \item Documenting comments for fuctions are located at the functions prototype, ie.\ in the \texttt{.h}-files.
+    \item \texttt{static} functions (in \texttt{.c} files) kan containg a short comment before the function, explaining it's return values. Apart from this, the function should be self explanatory.
+    \item Documentation is in English.
     \end{itemize}
 
-    \section{Almindelige kommentarer}
+    \section{Regular comments}
     \begin{itemize}
-    \item Forsøg at lave din kode så forståelig som muligt uden kommentarer, og brug dem kun hvor det er nødvendigt.
-    \item Skriv ikke unødvendige kommentarer (``\texttt{i++; /* i is incremented by 1. */}'').
-    \item Kommenter så vidt muligt for enden af en linje, så koden kan læses uforstyrret. Hvis en stor kommentar skal knyttes, skriv den da som en blokkommentar som her:
+    \item \emph{Try} to make your code as understandable as possible without comments, and to \emph{only} use them where it's necessary (this is a good exercise).
+    \item Don't write unnecessary comments (``\texttt{i++; /* i is incremented by 1. */}'')
+    \item If possible, write comments at the end of the line, to make reading of the code easy. If a large comment must be made, write it as a block comment, like this:
         \begin{lstlisting}
 /* 
  * FIXME:
@@ -175,40 +175,40 @@ syntax enable
  * the user know an ACK has occured. 
  */
         \end{lstlisting}
-        startende med \texttt{/*} og sluttende med \texttt{*/} på linjer for sig.
-    \item Kommentarer skrives på engelsk, og skrives som om man skriver til kode. Eks: \texttt{/* Find the student with the best grades. */}.
+        starting with \texttt{/*} and ending in \texttt{*/}, each on their own line.
+    \item Comments are in English, and are written as if you were writing to the code. Example: \texttt{/* Find the student with the best grades. */}.
     \end{itemize}
 
-    \chapter{Filopdeling}
-    Skrives eksempeltvis et main-program, filen \texttt{main.c}, med et bibliotek bestående af \texttt{\{spi.h, spi.c\}}, opdeles filerne som følger. 
+    \chapter{Files}
+    If, for example, a main program is written, the file \texttt{main.c}, with a library consisting of \texttt{\{spi.h, spi.c\}}, files are share like the following.
 
-    Filer kodes i øvrigt \emph{altid} i UTF-8-format.
+    By the way, files are \emph{always} encoded in UTF-8 format.
 
     \section{main.c}
     \begin{itemize}
-    \item Inkluderer \texttt{spi.h}.
-    \item Benytter funktioner herfra.
+    \item Includes \texttt{spi.h}.
+    \item Code in here is using functions from \texttt{spi.h}.
     \end{itemize}
 
     \section{spi.h}
     \begin{itemize}
-    \item Indeholder prototyper til globale funktioner.
-    \item Indeholder tilhørende dokumentation af disse funktioner.
-    \item Indeholder \texttt{typedef}s, \texttt{struct}s og \texttt{\#define}s tilhørende biblioteket. Generelt anvendes \texttt{struct}s uden \texttt{typedef}.
+    \item Contains prototypes for global functions.
+    \item Contains documentation comments for global functions.
+    \item Contains \texttt{typedef}s, \texttt{struct}s, and \texttt{\#define}s belonging to the library. Generally \texttt{struct}s are used without \texttt{typedef}.
     \end{itemize}
 
     \section{spi.c}
     \begin{itemize}
-    \item Inkluderer \texttt{spi.h}.
-    \item Indeholder, øverst, statiske funktioner, der benyttes senere i globale funktioner.\footnote{\texttt{static}-funktioner benyttes for at dele koden om i simplere underfunktioner. ``End funktion skal gøre 1 ting, og gøre det godt!''. Bare tænk på $\sin(x)$.}
-    \item Indeholder, nederst, kode til de globale funktioner, der er defineret i \texttt{spi.h}.
+    \item Includes \texttt{spi.h}.
+    \item Contains, in the top, \texttt{static} functions that are later used in the global functions.\footnote{\texttt{static} functions are used to split the functions into simple functions, that each do 1 thing, and does it well. Just think of $\sin(x)$.}
+    \item Contains, in the bottom, the code for the global functions, that are defined in \texttt{spi.h}.
     \end{itemize}
 \end{multicols}
 
 \clearpage
 \begin{landscape}
     \begin{multicols}{2}
-        \chapter{Kodeeksempel}
+        \chapter{Code example}
         \section{spi.h}
 
         \begin{lstlisting}[language=c]
