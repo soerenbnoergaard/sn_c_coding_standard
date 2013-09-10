@@ -1,0 +1,331 @@
+\documentclass[article, 10pt]{memoir}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[english]{babel}
+\usepackage{listings}
+\usepackage{tikz}
+\usepackage{multicol}
+\usepackage{pdflscape}
+
+\usepackage{cmbright}
+\usepackage[scaled=0.85]{DejaVuSansMono}
+
+\let\tempone\itemize
+\let\temptwo\enditemize
+\renewenvironment{itemize}{\tempone\firmlist}{\temptwo}
+
+\let\tempthree\enumerate
+\let\tempfour\endenumerate
+\renewenvironment{enumerate}{\tempthree\firmlist}{\tempfour}
+
+\renewcommand{\topfraction}{0.85}
+\renewcommand{\textfraction}{0.1}
+\renewcommand{\floatpagefraction}{0.85}
+
+\setlength{\parindent}{2pt}
+\setlength{\parskip}{6pt}
+
+\setlrmarginsandblock{1.7cm}{1.7cm}{*}
+\setulmarginsandblock{2.5cm}{2.5cm}{*}
+\setlength{\evensidemargin}{\oddsidemargin}
+\checkandfixthelayout
+
+\lstset{
+  breaklines=true, 
+  basicstyle=\ttfamily, 
+  frame=none,
+  numbers=none, 
+  literate={ø}{{\o}}1 {æ}{{\ae}}1{å}{{\aa}}1,
+  showtabs=false,
+  showspaces=false,
+  showstringspaces=false,
+  captionpos=b,
+  keywordstyle=\color{blue!70!black},
+  commentstyle=\color{red!50!black}
+}
+
+\title{C coding standard}
+\author{Søren Bøgeskov Nørgaard}
+\date{Last updated: \today}
+\begin{document}
+\maketitle
+\begin{multicols}{2}
+
+    {
+        \itshape
+        This documents a coding style, that may be used for programming in C. If no other coding styles are requested, this can be followed to make code in a project look alike. Using a coding style in  a project makes the code easier to read because everything is found in the same place.
+
+
+        This coding style is based on the Kerninghan \& Richie (K\&R) coding style, and is also inspired by the coding style of the Linux kernel. On the last pages there is a coding example, there most parts of coding is examplified (the code does absolutely nothing, but may make it easier to understand what is meant by the text).
+
+        Happy coding!
+    }
+    \tableofcontents
+
+    \chapter{Visual organization}
+    Visual setup of the code, including indention and parentheses (curly brackets).
+
+    \section{Indention}
+    \begin{itemize}
+    \item Indention is 4 spaces.
+    \item Labels, regarding \texttt{goto}'s, are not indented, and are put all the way to the left.
+    \item Labels/\texttt{case}'s regarding \texttt{switch}es are indented on the same level as ``\texttt{switch}''.
+    \end{itemize}
+
+    \section{Curly brackets}
+    \begin{itemize}
+    \item Curly brackets are put on the same line as the expression it belongs to (\texttt{if}, \texttt{while}, etc) \emph{except} for functions!
+    \item By functions the curly brackes are put on the line below the function expression, on a line of it's own.
+    \item Don't use curly brackets after \texttt{if}, \texttt{else}, \texttt{for}, \texttt{while}, if only a single statement follows. The statement is put on a line of it's own, and is indented.
+    \item In \texttt{if .. else if .. else} structures, the \texttt{else if} and \texttt{else} are put on the same line as the previous statement's ending curly bracket.
+    \item After an ending curly bracket in a \texttt{do-while} structure, the \texttt{while} is put on the same line.
+    \end{itemize}
+
+    \section{Whitespace}
+    \begin{itemize}
+    \item Whitespace is used consequently to split parts of the code, that don't belong together -- like you would do with paragraphs in a book.
+    \item Generally, no more than 1 line of whitespace is used.
+    \end{itemize}
+
+    \section{Line length}
+    \begin{itemize}
+    \item Linjer skal holdes under 80 karakterer. Dette er gammel praksis, men er meget smart hvis man vil printe kode i en rapport eksempeltvis.
+    \item Hvis funktioners parametre fylder mere end 80 karakteres, kan linjen knækkes ved et komma, og alignes under funktionens begyndende parentes (under første parameter).
+    \item Hvis andre strukturer \texttt{if}, \texttt{for} osv. bliver for lange, kan disse flyttes ned på næste linje, og indentes ligesom funktioner ovenfor. Deles der ved operatorer kan disse med fordel placeres på den nye linje.
+    \item Lange konstante strings, må gerne overstige 80 karakterer, for at gøre det lettere at søge på dem.
+    \end{itemize}
+
+    \section{Editor-opsætning}
+    Meget at ovenstående kan gøres automatisk af din editor, hvis den sættes ordentligt op. Herunder er en vejledning til at sætte et par editorer op.
+
+    \subsection{Vim}
+    I Vim gives ovennævnte effekt ved at placere følgende i opstartsfilen \verb|~/.vimrc|:
+    \begin{lstlisting}
+set encoding=utf-8
+set tabstop=4
+set shiftwidth=4
+set softtabstop=4
+set expandtab
+set autoindent
+set cinoptions=:0,l1,t0,g0,(0
+syntax enable
+    \end{lstlisting}
+
+    \subsection{Emacs}
+    I Emacs indsættes følgende i opstartsfilen \texttt{~/.emacs} eller \verb|~/.emacs.d/init.el|:
+    \begin{lstlisting}
+(setq-default tab-width 4)
+(setq-default c-basic-offset 4)
+(setq-default indent-tabs-mode nil)
+
+(prefer-coding-system       'utf-8)
+(set-default-coding-systems 'utf-8)
+(set-terminal-coding-system 'utf-8)
+(set-keyboard-coding-system 'utf-8)
+(setq default-buffer-file-coding-system 'utf-8)
+(setq x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING))
+    \end{lstlisting}
+
+    \chapter{Navngivning}
+    \begin{itemize}
+    \item Alle navne skrives på engelsk.
+    \item Globale funktioner (der ikke er \texttt{static}), bør have sigende, unikke navne som \texttt{spi\_send\_byte()}.
+    \item Funktioner der er static (kun kan ses i den kildefil de er i), bør have korte navne, der er sigende indenfor filens eget område (eks. \texttt{startclk()})
+    \item Samme gælder variable: Globale variable skal have lange/sigende navne, mens lokale variable bør holdes korte, og sigende indenfor sin givne funktion.
+    \item Funktions- og variabelnavne skrives kun med små bogstaver, og ord er separerede med \texttt{\_}.
+    \item Ofte brugte variabelnavne er:
+        \begin{itemize}
+        \item \texttt{i, j, k} til indeksering.
+        \item \texttt{p, q} til pointere.
+        \item \texttt{c} til karakterer.
+        \item \texttt{s} til string.
+        \item \texttt{x, y, z} til floats/doubles.
+        \item \texttt{l} til long.
+        \item \texttt{n} til ints.
+        \end{itemize}
+    \item Ved ``modsatte'' funktioner benyttes modsat navngivning. Eksempeltvis: \texttt{setclk()} og \texttt{getsck()}, \texttt{readbyte()} og \texttt{writebyte()} osv.
+    \item Defines skrives med \texttt{BLOKBOGSTAVER}, og makroer ligeså. Eks. \texttt{\#define MAX(A,B) a>b?a:b}. 
+
+        Hvis makroer opfører sig som funktioner, skrives de som funktioner. Eks. \texttt{\#define\ udelay(us) \_delay\_us(us)}.
+    \item Fejlkoder defineres som negative tal, er sigende for koden den beskriver, og indeholder et \texttt{E} for error. Eks: \texttt{\#define SPI\_ENACK} for en fejl ved et spi-modul, der bliver NACK’et.
+    \end{itemize}
+
+    \chapter{Kommentarer og kodedokumentation}
+
+    \section{Dokumenterende kommentarer}
+    \begin{itemize}
+    \item Før hver globale funktion, indsættes en blokkommentar, der starter med \texttt{/**}, og har en \texttt{*} indenteret med 1 space for hver linje. Blokken afsluttes med en tom linje med \texttt{*/}.
+    \item Blokken startes med en kort beskrivelse af hvad funktionen gør.
+    \item For hver parameter indsættes en linje begyndende med \texttt{@param x Beskrivelse af x.}.
+    \item For returværdier indsættes en linje som: \texttt{@return 0 = success, SPI\_ENACK = No acknowledge.}, hvor alle returværdiers betydning dokumenteres.
+    \item Dokumenterende kommentarer til funktioner forefindes ved funktionernes prototyper (i \texttt{.h}-filer).
+    \item static funktioner (i \texttt{.c}-filer) kan med fordel indeholde en kommentar over funktionen, der forklarer returværdier, men bør ellers være sigende i sig selv.
+    \item Dokumentation skrives på engelsk.
+    \end{itemize}
+
+    \section{Almindelige kommentarer}
+    \begin{itemize}
+    \item Forsøg at lave din kode så forståelig som muligt uden kommentarer, og brug dem kun hvor det er nødvendigt.
+    \item Skriv ikke unødvendige kommentarer (``\texttt{i++; /* i is incremented by 1. */}'').
+    \item Kommenter så vidt muligt for enden af en linje, så koden kan læses uforstyrret. Hvis en stor kommentar skal knyttes, skriv den da som en blokkommentar som her:
+        \begin{lstlisting}
+/* 
+ * FIXME:
+ * Some work needs to be done, to let
+ * the user know an ACK has occured. 
+ */
+        \end{lstlisting}
+        startende med \texttt{/*} og sluttende med \texttt{*/} på linjer for sig.
+    \item Kommentarer skrives på engelsk, og skrives som om man skriver til kode. Eks: \texttt{/* Find the student with the best grades. */}.
+    \end{itemize}
+
+    \chapter{Filopdeling}
+    Skrives eksempeltvis et main-program, filen \texttt{main.c}, med et bibliotek bestående af \texttt{\{spi.h, spi.c\}}, opdeles filerne som følger. 
+
+    Filer kodes i øvrigt \emph{altid} i UTF-8-format.
+
+    \section{main.c}
+    \begin{itemize}
+    \item Inkluderer \texttt{spi.h}.
+    \item Benytter funktioner herfra.
+    \end{itemize}
+
+    \section{spi.h}
+    \begin{itemize}
+    \item Indeholder prototyper til globale funktioner.
+    \item Indeholder tilhørende dokumentation af disse funktioner.
+    \item Indeholder \texttt{typedef}s, \texttt{struct}s og \texttt{\#define}s tilhørende biblioteket. Generelt anvendes \texttt{struct}s uden \texttt{typedef}.
+    \end{itemize}
+
+    \section{spi.c}
+    \begin{itemize}
+    \item Inkluderer \texttt{spi.h}.
+    \item Indeholder, øverst, statiske funktioner, der benyttes senere i globale funktioner.\footnote{\texttt{static}-funktioner benyttes for at dele koden om i simplere underfunktioner. ``End funktion skal gøre 1 ting, og gøre det godt!''. Bare tænk på $\sin(x)$.}
+    \item Indeholder, nederst, kode til de globale funktioner, der er defineret i \texttt{spi.h}.
+    \end{itemize}
+\end{multicols}
+
+\clearpage
+\begin{landscape}
+    \begin{multicols}{2}
+        \chapter{Kodeeksempel}
+        \section{spi.h}
+
+        \begin{lstlisting}[language=c]
+#include <stdio.h>
+
+#ifndef SPI_H
+#define SPI_H
+#define RED 0x00FF0000
+#define BLUE 0x0000FF00
+#define GREEN 0x000000FF
+
+#define MAX(A,B) a>b?a:b
+#define udelay(us) _delay_us(us)
+
+typedef unsigned char u8;
+
+struct spi_adapter {
+    unsigned char mosi;
+    unsigned char miso;
+    unsigned char sck;
+};
+
+/**
+ * Sends one byte via SPI.
+ * @param byte Data byte to be sent.
+ * @param divide Number to divide the clock by.
+ * @param slave ID of the slave to send to.
+ *
+ * @return 0 = success, SPI_ENACK = No acknowledge.
+ */
+int spi_send_byte(unsigned char byte, unsigned byte divide,
+                  unsigned char slave);
+
+#endif
+        \end{lstlisting}
+
+        \vfill
+        \columnbreak
+        \section{spi.c}
+        \begin{lstlisting}[language=c]
+#include "spi.h"
+
+static void startclk()
+{
+    SPICTL |= 0x01;
+}
+
+int spi_send_byte(unsigned char byte, unsigned byte divide,
+                  unsigned char slave)
+{
+    printf("Så er den sendt...\n");
+
+    if (SPICTL & 0x01)
+        return 0;
+    else
+        return SPI_ENACK;
+}
+        \end{lstlisting}
+
+        \vfill
+        \columnbreak
+
+        \section{main.c}
+        \begin{lstlisting}[language=c]
+#include "spi.h"
+
+int main(void)
+{
+    unsigned char input, c;
+
+    input = getchar();
+    switch (input) {
+    case 0x01:
+        spi_send_byte(0x01, 1, 0x01);
+        break;
+    case 0x02:
+        c = spi_receive_byte();
+        break;
+    default:
+        printf("Command unknown: %x\n", input);
+        goto bailout;
+    }
+
+    /* 
+     * Underneath are some different 
+     * ways to use if-else statements
+     * for this standard 
+     */
+    if (c > 100)
+        printf("Det var et ordentligt tal!\n");
+    else
+        printf("Ja det fint...");
+
+    if (c == 0x01) {  /* Switch colors. */
+        change_color(BLUE);
+        printf("Skiftet til blå");
+    } else if (c == 0x02) {
+        change_color(RED);
+        printf("Skiftet til rød");
+    } else {
+        change_color(green);
+        printf("Skiftet til grøn");
+    }
+
+    if (c < 10 || input == 0x03 || input == 0x04
+        || input == 0x05) {
+        print_help();
+        delay(1000);
+    }
+
+    return 0;
+
+bailout:
+    return -1;
+}
+        \end{lstlisting}
+    \end{multicols}
+\end{landscape}
+
+\end{document}
